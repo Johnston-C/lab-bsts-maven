@@ -236,7 +236,11 @@ public class SimpleBST<K, V> implements SimpleMap<K, V> {
    */
   @Override
   public void forEach(BiConsumer<? super K, ? super V> action) {
-    // STUB
+    Iterator<BSTNode<K, V>> iterator = this.nodes();
+    while (iterator.hasNext()) {
+      BSTNode<K, V> node = iterator.next();
+      action.accept(node.key, node.value);
+    }
   } // forEach
 
   // +----------------------+----------------------------------------
@@ -329,8 +333,16 @@ public class SimpleBST<K, V> implements SimpleMap<K, V> {
       @Override
       public BSTNode<K, V> next() {
         checkInit();
-        // STUB
-        return null;
+        BSTNode<K, V> ret = stack.pop();
+        if (ret.right != null) { 
+          stack.push(ret.right);
+        }
+
+        if (ret.left != null) { 
+          stack.push(ret.left);
+        }
+
+        return ret;
       } // next();
 
       void checkInit() {
